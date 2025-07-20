@@ -1,0 +1,14 @@
+ungrouped:
+  hosts:
+    dragonstone.main.home:
+      ansible_connection: ssh
+      ansible_user: jmachin
+      wireguard_ip: 192.168.254.1/24
+    tipton.main.home:
+      ansible_connection: ssh
+      ansible_user: Jamie
+      wireguard_ip: 192.168.254.3/24
+homelab:
+  hosts:
+    dragonstone.main.home:
+    tipton.main.home:

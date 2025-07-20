@@ -1,0 +1,38 @@
+- name: Get list of wireguard peers
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Add hosts to a group if variable is defined
+      group_by:
+        key: "wireguard_{{ 'peers' if wireguard_ip is defined else 'undefined' }}"
+        
+- name: Print wireguard peers
+  hosts: wireguard_peers
+  gather_facts: no
+  tasks:
+    - name: Display hosts
+      debug:
+        msg: "wireguard_peers: {{ inventory_hostname }}"
+
+- hosts: "{{ target_host | default('wireguard_peers') }}"
+  tasks:
+    - name: Load wireguard secrets as variables
+      include_vars:
+        file: secrets/wireguard.yml
+        name: secrets  # Load all vars into a single dictionary
+
+    - name: Set host and server secrets
+      set_fact:
+        host_secrets: "{{ secrets[inventory_hostname] }}"
+        server_secrets: "{{ secrets['dragonstone.main.home'] }}"
+
+
+    - name: x
+      ansible.builtin.debug:
+        msg: "hi {{ groups['homelab'] }}"
+
+    - name: Template /etc/wireguard/wg4.conf
+      ansible.builtin.template:
+        src: templates/wireguard/wg4-client.conf.j2
+        dest: x.conf
+        mode: '0644'

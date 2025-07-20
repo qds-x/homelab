@@ -5,6 +5,7 @@ Code and config for homelab. It's a work in progress
 ## Components
 
 - [dnsmasq](components/dnsmasq/README.md)
+- [wireguard](components/wireguard/README.md)
 
 ## To do
 
